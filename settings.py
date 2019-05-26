@@ -11,7 +11,13 @@ class Settings:
         self.bg_color = (230, 230, 230)
 
         # Ship Settings
-        self.ship_speed = 1.25
+        self.ship_speed = 1.05
 
         # Full screen?
         self.full_screen = False
+
+        # Allow ship to move up and down
+        self.up_and_down = True
+
+        # Allow ship speed to be adjusted
+        self.ship_speed_adjust = True

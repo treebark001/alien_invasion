@@ -2,7 +2,7 @@ import sys, pygame
 from settings import Settings
 from ship import Ship
 
-# 245 (283 of 248) - last page was working on
+# 246 (284 of 248) - last page was working on
 
 class AlienInvasion:
     """Overall class to manage game assets and behavior."""
@@ -16,11 +16,13 @@ class AlienInvasion:
 
         if self.settings.full_screen:
             self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
-            self.settings.screen_width = self.screen.get_rect().width
-            self.settings.screen_height = self.screen.get_rect().height
+            #self.settings.screen_width = self.screen.get_rect().width
+            #self.settings.screen_height = self.screen.get_rect().height
         else:
             self.screen = pygame.display.set_mode((self.settings.screen_width,
                 self.settings.screen_height))
+
+
 
         pygame.display.set_caption("Alien Invasion")
 
@@ -49,22 +51,39 @@ class AlienInvasion:
 
 
     def _check_keydown_events(self, event):
-        if event.key == pygame.K_RIGHT:
+        print(event.key)
+        if event.key == pygame.K_q:
+            sys.exit()
+        elif event.key == pygame.K_RIGHT:
             # Move the ship to the right.
             self.ship.moving_right = True
         elif event.key == pygame.K_LEFT:
             # Move the ship to the left.
             self.ship.moving_left = True
-        elif event.key == pygame.K_q:
-            sys.exit()
-        elif event.key == pygame.K_p:
-            print(self.settings.screen_width, self.settings.screen_height)
+        elif self.settings.up_and_down:
+            if event.key == pygame.K_UP:
+                # Move the ship to the left.
+                self.ship.moving_up = True
+            elif event.key == pygame.K_DOWN:
+                # Move the ship to the left.
+                self.ship.moving_down = True
+        if self.settings.ship_speed_adjust:
+            if event.key == 269 and self.settings.ship_speed > 0.15:
+                self.settings.ship_speed -= 0.1
+            elif event.key == 270:
+                self.settings.ship_speed += 0.1
+
+
 
     def _check_keyup_events(self, event):
         if event.key == pygame.K_RIGHT:
             self.ship.moving_right = False
         elif event.key == pygame.K_LEFT:
             self.ship.moving_left = False
+        elif event.key == pygame.K_UP:
+            self.ship.moving_up = False
+        elif event.key == pygame.K_DOWN:
+                self.ship.moving_down = False
 
 
     def _update_screen(self):
